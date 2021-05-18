@@ -1,72 +1,52 @@
-jQuery(document).ready(function ($) {
-  $(".previous").hide();
-  $.ajax({
-    type: "GET",
-    url: "https://reqres.in/api/users?page=" + 1,
+$(function () {
+  loadPage__One();
+  $(".next").click(loadPage__Two);
+  $(".previous").click(loadPage__One);
+});
 
-    success: function (res) {
-      $(".users__Data").html("");
-      for (var a = 0; a < res.data.length; a++) {
-        $(".users__Data").append(
+function loadPage__One() {
+  $(".previous").hide();
+  $(".next").show();
+  $.ajax({
+    url: "https://reqres.in/api/users?page=1",
+    method: "GET",
+    success: function (response) {
+      var users__Data = $(".users__Data");
+      users__Data.empty();
+      for (var i = 0; i < 7; i++) {
+        var user__Data = response.data[i];
+        users__Data.append(
           `<div class="user__Data"> <div> <img src="${
-            res.data[a].avatar
+            user__Data.avatar
           }" alt="Avatar"></div> <div class="firstLast__Name"><h4 class="firstname ">Name: ${
-            res.data[a].first_name + " " + res.data[a].last_name
+            user__Data.first_name + " " + user__Data.last_name
           }
-            </h4><h5 class="email">Email: ${
-              res.data[a].email
-            }</h5></div> </div>`
+            </h4><h5 class="email">Email: ${user__Data.email}</h5></div> </div>`
         );
       }
     },
   });
-  $(".next").click(function () {
-    $.ajax({
-      type: "GET",
-      url: "https://reqres.in/api/users?page=" + 2,
-
-      success: function (res) {
-        $(".users__Data").html("");
-        for (var a = 0; a < res.data.length; a++) {
-          $(".users__Data").append(
-            `<div class="user__Data"> <div> <img src="${
-              res.data[a].avatar
-            }" alt="Avatar"></div> <div class="firstLast__Name"><h4 class="firstname ">Name: ${
-              res.data[a].first_name + " " + res.data[a].last_name
-            }
-            </h4><h5 class="email">Email: ${
-              res.data[a].email
-            }</h5></div> </div>`
-          );
-        }
-      },
-    });
-    $(".next").hide();
-    $(".previous").show();
+}
+function loadPage__Two() {
+  $(".next").hide();
+  $(".previous").show();
+  $.ajax({
+    url: "https://reqres.in/api/users?page=2",
+    method: "GET",
+    success: function (response) {
+      var users__Data = $(".users__Data");
+      users__Data.empty();
+      for (var i = 0; i < 7; i++) {
+        var user__Data = response.data[i];
+        users__Data.append(
+          `<div class="user__Data"> <div> <img src="${
+            user__Data.avatar
+          }" alt="Avatar"></div> <div class="firstLast__Name"><h4 class="firstname ">Name: ${
+            user__Data.first_name + " " + user__Data.last_name
+          }
+            </h4><h5 class="email">Email: ${user__Data.email}</h5></div> </div>`
+        );
+      }
+    },
   });
-  $(".previous").click(function () {
-    $.ajax({
-      type: "GET",
-      url: "https://reqres.in/api/users?page=" + 1,
-
-      success: function (res) {
-        $(".users__Data").html("");
-        for (var a = 0; a < res.data.length; a++) {
-          $(".users__Data").append(
-            `<div class="user__Data"> <div> <img src="${
-              res.data[a].avatar
-            }" alt="Avatar"></div> <div class="firstLast__Name"><h4 class="firstname ">Name: ${
-              res.data[a].first_name + " " + res.data[a].last_name
-            }
-            </h4><h5 class="email">Email: ${
-              res.data[a].email
-            }</h5></div> </div>`
-          );
-        }
-      },
-    });
-
-    $(".previous").hide();
-    $(".next").show();
-  });
-});
+}
